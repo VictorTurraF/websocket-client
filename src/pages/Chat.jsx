@@ -6,6 +6,7 @@ import Spinner from '../components/Spinner';
 import * as client from "../services/rooms";
 
 function Dashboard() {
+  const [socket, setSocket] = useState()
   const [activeRoom, setActiveRoom] = useState();
   const [rooms, setRooms] = useState([]);
   const [isLoading, setIsLoading] = useState(true)
@@ -35,6 +36,11 @@ function Dashboard() {
     }
 
     fetchRooms();
+  }, []);
+
+  useEffect(() => {
+    const newSocket = io("http://localhost:3333");
+    setSocket(newSocket);
   }, []);
 
   if (isLoading) {

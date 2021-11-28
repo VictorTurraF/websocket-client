@@ -1,13 +1,13 @@
 import axios from "axios";
 
 const client = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "http://localhost:3000/api",
   handers: {
     "Content-Type": "application/json",
   },
 });
 
-const authenticatedClient = axios.create({ ...client.config });
+const authenticatedClient = axios.create({ ...client.defaults });
 authenticatedClient.interceptors.request.use(
   function (config) {
     const token = localStorage.getItem("token") || "";

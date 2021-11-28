@@ -1,7 +1,9 @@
 import { rest } from "msw";
 
+const baseUrl = 'http://localhost:3000/api'
+
 export const handlers = [
-  rest.post("/auth", (req, res, ctx) => {
+  rest.post(baseUrl + "/auth", (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({
@@ -15,7 +17,7 @@ export const handlers = [
     );
   }),
 
-  rest.get("/rooms", (req, res, ctx) => {
+  rest.get(baseUrl + "/rooms", (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json([

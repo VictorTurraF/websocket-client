@@ -8,11 +8,11 @@ function ChatRoom({ room }) {
           </symbol>
         </svg>
         <div
-          class="alert alert-secondary d-flex align-items-center"
+          className="alert alert-secondary d-flex align-items-center"
           role="alert"
         >
           <svg
-            class="bi flex-shrink-0 me-2"
+            className="bi flex-shrink-0 me-2"
             width="24"
             height="24"
             role="img"
