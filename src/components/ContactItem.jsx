@@ -1,7 +1,7 @@
 import cx from "classnames";
 
 export default function ContactItem({
-  contact: { fullName },
+  contactName,
   isActive = false,
   onClick = () => {}
 }) {
@@ -14,7 +14,7 @@ export default function ContactItem({
       onClick={onClick}
     >
       <div className="d-flex w-100 align-items-center justify-content-between">
-        <strong className="mb-1">{fullName}</strong>
+        <strong className="mb-1">{contactName}</strong>
         <small>Ontem</small>
       </div>
       <div className="col-10 mb-1 small">Lacus feugiat rutrum sollicitudin, aliquam molestie lorem dictum, nec elit.</div>

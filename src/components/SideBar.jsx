@@ -1,12 +1,12 @@
 import ContactItem from "./ContactItem";
 
 export default function SideBar({
-  contacts = [],
-  activeChat = { index: 0 },
+  rooms = [],
+  activeRoom = { index: 0 },
   onChange = () => {},
 }) {
-  function handleContactClick({ event, contact }) {
-    onChange({ event, selected: contact });
+  function handleRoomClick({ event, room }) {
+    onChange({ event, selected: room });
   }
 
   return (
@@ -21,12 +21,12 @@ export default function SideBar({
         <span className="fs-5 fw-semibold">Contatos</span>
       </a>
       <div className="list-group list-group-flush border-bottom scrollarea">
-        {contacts.map((contact, index) => (
+        {rooms.map((room, index) => (
           <ContactItem
             key={index}
-            contact={contact}
-            isActive={index === activeChat.index}
-            onClick={(event) => handleContactClick({ event, contact })}
+            contactName={room.user.name}
+            isActive={index === activeRoom.index}
+            onClick={(event) => handleRoomClick({ event, room })}
           />
         ))}
       </div>
