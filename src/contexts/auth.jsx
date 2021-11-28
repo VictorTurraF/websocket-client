@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import * as service from "../services/client";
+import { login } from "../services/auth";
 
 import Spinner from "../components/Spinner";
 
@@ -13,7 +13,7 @@ export function AuthProvider({ children }) {
 
   async function requestAuth({ email, password }) {
     try {
-      const { data } = await service.login({ email, password });
+      const { data } = await login({ email, password });
       return data;
     } catch (error) {
       console.warn("Falha na requisão http referente ao login");

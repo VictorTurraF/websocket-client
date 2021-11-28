@@ -19,6 +19,7 @@ function Dashboard() {
       created_at: "2021-10-13T00:37:57.345Z",
       updated_at: "2021-10-13T00:37:57.345Z",
     },
+    
     {
       id: "74537778-eb2b-431e-90c3-e348c9a45c5e",
       first_name: "Gabriel",
@@ -48,18 +49,16 @@ function Dashboard() {
   });
 
   useEffect(() => {
-    const newSocket = io("http://localhost:3000");
+    const newSocket = io("http://localhost:3333");
     setSocket(newSocket);
   }, []);
 
   useEffect(() => {
-    // socket.emit("select_contact", {
-    //   loggedUser: 
-    // })
+    
   }, [activeChat]);
 
   function handleSideBarChange({ selected }) {
-    console.log(selected)
+    console.log(selected);
     setActiveChat({
       index: availableChats.findIndex((user) => user.id === selected.id),
       userId: selected.id,
@@ -68,18 +67,16 @@ function Dashboard() {
   }
 
   return (
-    <div className="h-100">
-      <div className="d-flex h-100">
-        <div style={{ maxWidth: "400px" }}>
-          <SideBar
-            onChange={handleSideBarChange}
-            contacts={contacts}
-            activeChat={activeChat}
-          />
-        </div>
-        <div className="flex-grow-1">
-          <Chat contact={activeChat} />
-        </div>
+    <div className="text-start d-flex h-100 w-100">
+      <div className="border-end" style={{ maxWidth: "400px" }}>
+        <SideBar
+          onChange={handleSideBarChange}
+          contacts={contacts}
+          activeChat={activeChat}
+        />
+      </div>
+      <div className="flex-grow-1">
+        <Chat contact={activeChat} />
       </div>
     </div>
   );

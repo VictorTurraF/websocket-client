@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import { AuthProvider } from "./contexts/auth";
 
 import PrivateRoute from "./components/PrivateRoute";
@@ -21,6 +21,7 @@ function App() {
           <AuthProvider>
             <Route path="/login" component={Login} />
             <PrivateRoute path="/chat" component={Chat} />
+            <Redirect to="/login"/>
           </AuthProvider>
         </Suspense>
       </Switch>
