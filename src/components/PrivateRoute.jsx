@@ -1,14 +1,13 @@
-import { Route, Redirect } from 'react-router-dom'
-import { useAuth } from '../contexts/auth'
+import { Route, Redirect } from "react-router-dom";
+import { useAuth } from "../contexts/auth";
 function PrivateRoute(props) {
-  const { signed } = useAuth()
+  const { signed } = useAuth();
 
-  if (!signed)
-    return <Redirect to="/login" />
+  if (!signed) {
+    return <Redirect to="/login" />;
+  }
 
-  return (
-    <Route {...props} />
-  )
+  return <Route {...props} />;
 }
 
-export default PrivateRoute
+export default PrivateRoute;

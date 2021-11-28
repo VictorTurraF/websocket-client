@@ -12,7 +12,9 @@ function Login() {
     signIn({ email, password });
   }
 
-  if (signed) return <Redirect to="/dashboard" />;
+  if (signed) {
+    return <Redirect to="/chat" />;
+  }
 
   return (
     <main className="form-signin">
