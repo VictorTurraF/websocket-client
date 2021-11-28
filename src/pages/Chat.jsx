@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
+import { useAuth } from "../hooks/useAuth";
 import Chat from "../components/Chat";
 import SideBar from "../components/SideBar";
-import Spinner from '../components/Spinner';
+import Spinner from "../components/Spinner";
 import * as client from "../services/rooms";
 
 function Dashboard() {
-  const [socket, setSocket] = useState()
+  const [socket, setSocket] = useState();
   const [activeRoom, setActiveRoom] = useState();
   const [rooms, setRooms] = useState([]);
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true);
+
+  const { user } = useAuth();
 
   function handleSideBarChange({ selected }) {
     setActiveRoom(selected);
@@ -31,7 +34,7 @@ function Dashboard() {
       const rooms = await requestRooms();
       if (!!rooms) {
         setRooms(rooms);
-        setIsLoading(false)
+        setIsLoading(false);
       }
     }
 
@@ -43,8 +46,20 @@ function Dashboard() {
     setSocket(newSocket);
   }, []);
 
+  useEffect(() => {
+    if (!!activeRoom) {
+
+      socket.emit("select_room", {
+        user,
+        contact: activeRoom.user,
+        type: activeRoom.type,
+      });
+      
+    }
+  }, [activeRoom, socket, user]);
+
   if (isLoading) {
-    return <Spinner className="mx-auto" />
+    return <Spinner className="mx-auto" />;
   }
 
   return (

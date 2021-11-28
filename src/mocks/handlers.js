@@ -9,7 +9,7 @@ export const handlers = [
       ctx.json({
         token: "abc123",
         user: {
-          id: "1",
+          id: 1,
           nickname: "VictorTurraF",
           full_name: "Victor Turra",
         },
