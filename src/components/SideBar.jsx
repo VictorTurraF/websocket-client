@@ -2,7 +2,7 @@ import ContactItem from "./ContactItem";
 
 export default function SideBar({
   rooms = [],
-  activeRoom = { index: 0 },
+  activeRoom,
   onChange = () => {},
 }) {
   function handleRoomClick({ event, room }) {
@@ -25,7 +25,7 @@ export default function SideBar({
           <ContactItem
             key={index}
             contactName={room.user.name}
-            isActive={index === activeRoom.index}
+            isActive={!!activeRoom && room.id === activeRoom.id}
             onClick={(event) => handleRoomClick({ event, room })}
           />
         ))}

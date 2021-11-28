@@ -11,11 +11,7 @@ function Dashboard() {
   const [isLoading, setIsLoading] = useState(true)
 
   function handleSideBarChange({ selected }) {
-    setActiveRoom({
-      index: rooms.findIndex((room) => room.id === selected.id),
-      roomId: selected.id,
-      room: selected,
-    });
+    setActiveRoom(selected);
   }
 
   useEffect(() => {
@@ -40,9 +36,6 @@ function Dashboard() {
 
     fetchRooms();
   }, []);
-
-
-  console.log(activeRoom)
 
   if (isLoading) {
     return <Spinner className="mx-auto" />

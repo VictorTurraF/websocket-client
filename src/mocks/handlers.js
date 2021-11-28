@@ -1,8 +1,7 @@
-import { rest } from 'msw'
+import { rest } from "msw";
 
 export const handlers = [
-  rest.post('/auth', (req, res, ctx) => {
-
+  rest.post("/auth", (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({
@@ -11,19 +10,26 @@ export const handlers = [
           id: "1",
           nickname: "VictorTurraF",
           full_name: "Victor Turra",
-        }
+        },
       })
-    )
-
+    );
   }),
 
-  rest.get('/rooms', (req, res, ctx) => {
+  rest.get("/rooms", (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json([
-        { id: 2, type: 'contact', user: { nickname: 'AmandaTF', name: "Amanda Turra" } },
-        { id: 3, type: 'contact', user: { nickname: 'GagrielTF', name: "Gabriel Turra" } },
+        {
+          id: 2,
+          type: "contact",
+          user: { nickname: "AmandaTF", name: "Amanda Turra" },
+        },
+        {
+          id: 3,
+          type: "contact",
+          user: { nickname: "GagrielTF", name: "Gabriel Turra" },
+        },
       ])
-    )
-  })
-]
+    );
+  }),
+];
