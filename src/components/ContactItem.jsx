@@ -3,7 +3,7 @@ import cx from "classnames";
 export default function ContactItem({
   contactName,
   isActive = false,
-  onClick = () => {}
+  onClick = () => {},
 }) {
   return (
     <button
@@ -17,7 +17,10 @@ export default function ContactItem({
         <strong className="mb-1">{contactName}</strong>
         <small>Ontem</small>
       </div>
-      <div className="col-10 mb-1 small">Lacus feugiat rutrum sollicitudin, aliquam molestie lorem dictum, nec elit.</div>
+      <div className="col-10 mb-1 small">
+        Lacus feugiat rutrum sollicitudin, aliquam molestie lorem dictum, nec
+        elit.
+      </div>
     </button>
   );
 }

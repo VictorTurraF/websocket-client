@@ -20,7 +20,7 @@ function ChatRoom({ room }) {
           >
             <use xlinkHref="#info-fill" />
           </svg>
-          <div>Selecione um contato ao lado</div>
+          <div>Selecione um contato ao lado para começar</div>
         </div>
       </div>
     );
