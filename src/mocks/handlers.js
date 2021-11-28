@@ -16,4 +16,14 @@ export const handlers = [
     )
 
   }),
+
+  rest.get('/rooms', (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json([
+        { id: 2, type: 'contact', user: { nickname: 'AmandaTF', name: "Amanda Turra" } },
+        { id: 2, type: 'contact', user: { nickname: 'GagrielTF', name: "Gabriel Turra" } },
+      ])
+    )
+  })
 ]
