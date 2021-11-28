@@ -1,20 +1,31 @@
 import InfoAlert from "./InfoAlert";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useAuth } from "../hooks/useAuth";
 
-function ChatRoom({ room }) {
-  const [messages, setMessages] = useState([]);
+function ChatRoom({ socket, room, messages, onMessageSent }) {
   const [message, setMessage] = useState("");
+
+  const { user } = useAuth();
 
   function handleSendButtonClick(event) {
     event.stopPropagation();
     event.preventDefault();
 
+    console.log(room);
+    console.log(message);
+
     const newMessage = {
       description: message,
     };
 
-    setMessages([...messages, newMessage]);
+    socket.emit("message", {
+      author_nickname: user.nickname,
+      room_name: `${user.nickname}_${room.user.nickname}`,
+      description: message,
+    });
+
+    onMessageSent({ message, event })
   }
 
   function handleMessageTyping(event) {
@@ -35,7 +46,7 @@ function ChatRoom({ room }) {
       </div>
       <div className="message-board flex-grow-1 p-3">
         {messages.map((message, index) => (
-          <div className="">{message.description}</div>
+          <div key={index} className="">{message.description}</div>
         ))}
       </div>
       <div className="bg-white border-top p-3">
