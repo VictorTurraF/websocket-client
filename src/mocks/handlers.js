@@ -22,14 +22,14 @@ export const handlers = [
       ctx.status(200),
       ctx.json([
         {
-          id: 2,
+          id: 1,
           type: "contact",
-          user: { nickname: "AmandaTF", name: "Amanda Turra" },
+          user: { id: 2, nickname: "AmandaTF", full_name: "Amanda Turra" },
         },
         {
-          id: 3,
+          id: 2,
           type: "contact",
-          user: { nickname: "GagrielTF", name: "Gabriel Turra" },
+          user: { id: 3, nickname: "GagrielTF", full_name: "Gabriel Turra" },
         },
       ])
     );
