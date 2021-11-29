@@ -3,29 +3,29 @@ import InfoAlert from "./InfoAlert";
 import { useState, useEffect } from "react";
 import { useAuth } from "../hooks/useAuth";
 
-function ChatRoom({ socket, room, messages, onMessageSent }) {
+function ChatRoom({
+  socket,
+  room,
+  messages,
+  onMessageSent = () => {},
+  onMessageReceived = () => {},
+}) {
   const [message, setMessage] = useState("");
 
   const { user } = useAuth();
 
-  function handleSendButtonClick(event) {
+  function handleMessageSubmit(event) {
     event.stopPropagation();
     event.preventDefault();
-
-    console.log(room);
-    console.log(message);
-
-    const newMessage = {
-      description: message,
-    };
+    setMessage("");
 
     socket.emit("message", {
       author_nickname: user.nickname,
-      room_name: `${user.nickname}_${room.user.nickname}`,
+      room_name: room.room_name,
       description: message,
     });
 
-    onMessageSent({ message, event })
+    onMessageSent({ message, event });
   }
 
   function handleMessageTyping(event) {
@@ -35,6 +35,16 @@ function ChatRoom({ socket, room, messages, onMessageSent }) {
     setMessage(event.target.value);
   }
 
+  useEffect(() => {
+    socket.on("message", (data) => {
+      onMessageReceived({
+        description: data.description,
+        room: data.room,
+        socket: socket.id,
+      });
+    });
+  }, [socket, onMessageReceived]);
+
   if (!room) {
     return <InfoAlert message="Selecione um contato ao lado para começar" />;
   }
@@ -42,15 +52,18 @@ function ChatRoom({ socket, room, messages, onMessageSent }) {
   return (
     <div className="d-flex flex-column h-100">
       <div className="p-3 fs-5 fw-semibold border-bottom bg-white">
-        {room.user.name}
+        {room.user.full_name}{" "}
+        <small className="text-muted fs-6">{`@${room.user.nickname}`}</small>
       </div>
       <div className="message-board flex-grow-1 p-3">
         {messages.map((message, index) => (
-          <div key={index} className="">{message.description}</div>
+          <div key={index} className="">
+            {message.description}
+          </div>
         ))}
       </div>
       <div className="bg-white border-top p-3">
-        <form className="row g-2">
+        <form className="row g-2" onSubmit={handleMessageSubmit}>
           <div className="col-10">
             <input
               type="text"
@@ -61,11 +74,7 @@ function ChatRoom({ socket, room, messages, onMessageSent }) {
             />
           </div>
           <div className="col-2">
-            <button
-              type="button"
-              className="btn btn-primary w-100"
-              onClick={handleSendButtonClick}
-            >
+            <button type="submit" className="btn btn-primary w-100">
               Enviar
             </button>
           </div>
