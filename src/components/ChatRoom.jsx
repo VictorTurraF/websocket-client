@@ -2,6 +2,8 @@ import InfoAlert from "./InfoAlert";
 
 import { useState, useEffect } from "react";
 import { useAuth } from "../hooks/useAuth";
+import cx from 'classnames';
+import dayjs from 'dayjs';
 
 function ChatRoom({
   socket,
@@ -37,11 +39,7 @@ function ChatRoom({
 
   useEffect(() => {
     socket.on("message", (data) => {
-      onMessageReceived({
-        description: data.description,
-        room: data.room,
-        socket: socket.id,
-      });
+      onMessageReceived({ message: data });
     });
   }, [socket, onMessageReceived]);
 
@@ -57,14 +55,20 @@ function ChatRoom({
       </div>
       <div className="message-board flex-grow-1 p-3">
         {messages.map((message, index) => (
-          <div key={index} className="">
-            {message.description}
+          <div key={index} className="d-flex my-2">
+            <div className={cx("px-3 py-1 rounded", {
+              "bg-primary text-light ms-auto": message.author_nickname === user.nickname,
+              "bg-white text-dark ml-auto": message.author_nickname !== user.nickname,
+            })}>
+              {message.description}
+              <span className="ms-2" style={{ fontSize: '.7rem' }}>{dayjs(message.created_at).format('HH:mm')}</span>
+            </div>
           </div>
         ))}
       </div>
       <div className="bg-white border-top p-3">
         <form className="row g-2" onSubmit={handleMessageSubmit}>
-          <div className="col-10">
+          <div className="col">
             <input
               type="text"
               className="form-control"
@@ -73,7 +77,7 @@ function ChatRoom({
               onChange={handleMessageTyping}
             />
           </div>
-          <div className="col-2">
+          <div className="col-4 col-md-2">
             <button type="submit" className="btn btn-primary w-100">
               Enviar
             </button>

@@ -20,8 +20,8 @@ function Dashboard() {
   }
 
   const handleMessageReceived = useCallback(
-    function (data) {
-      setMessages([...messages, { description: data.description }]);
+    function ({ message }) {
+      setMessages([...messages, message]);
     },
     [messages]
   );
@@ -78,7 +78,7 @@ function Dashboard() {
 
   return (
     <div className="text-start d-flex h-100 w-100">
-      <div className="border-end" style={{ maxWidth: "400px" }}>
+      <div className="border-end col-5 col-md-4 col-lg-3">
         <SideBar
           onChange={handleSideBarChange}
           rooms={rooms}
