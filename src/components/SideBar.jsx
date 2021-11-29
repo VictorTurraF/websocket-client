@@ -24,7 +24,7 @@ export default function SideBar({
         {rooms.map((room, index) => (
           <ContactItem
             key={index}
-            contactName={room.user.name}
+            contactName={room.user.full_name}
             isActive={!!activeRoom && room.id === activeRoom.id}
             onClick={(event) => handleRoomClick({ event, room })}
           />
