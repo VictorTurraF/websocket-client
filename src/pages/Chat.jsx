@@ -1,15 +1,16 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { useAuth } from "../hooks/useAuth";
-import Chat from "../components/Chat";
+import Chat from "../components/ChatRoom";
 import SideBar from "../components/SideBar";
 import Spinner from "../components/Spinner";
 import * as client from "../services/rooms";
 
 function Dashboard() {
-  const [socket, setSocket] = useState();
-  const [activeRoom, setActiveRoom] = useState();
   const [rooms, setRooms] = useState([]);
+  const [activeRoom, setActiveRoom] = useState();
+  const [messages, setMessages] = useState([]);
+  const [socket, setSocket] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
   const { user } = useAuth();
@@ -17,6 +18,13 @@ function Dashboard() {
   function handleSideBarChange({ selected }) {
     setActiveRoom(selected);
   }
+
+  const handleMessageReceived = useCallback(
+    function (data) {
+      setMessages([...messages, { description: data.description }]);
+    },
+    [messages]
+  );
 
   useEffect(() => {
     async function requestRooms() {
@@ -48,15 +56,21 @@ function Dashboard() {
 
   useEffect(() => {
     if (!!activeRoom) {
-
-      socket.emit("select_room", {
-        user,
-        contact: activeRoom.user,
-        type: activeRoom.type,
-      });
-      
+      console.log(activeRoom.room_name)
+      socket.emit(
+        "select_room",
+        {
+          user,
+          contact: activeRoom.user,
+          type: activeRoom.type,
+          room_name: activeRoom.room_name
+        },
+        (response) => {
+          setMessages(response.messages);
+        }
+      );
     }
-  }, [activeRoom, socket, user]);
+  }, [activeRoom, socket]);
 
   if (isLoading) {
     return <Spinner className="mx-auto" />;
@@ -72,7 +86,12 @@ function Dashboard() {
         />
       </div>
       <div className="flex-grow-1">
-        <Chat room={activeRoom} />
+        <Chat
+          socket={socket}
+          room={activeRoom}
+          messages={messages}
+          onMessageReceived={handleMessageReceived}
+        />
       </div>
     </div>
   );
